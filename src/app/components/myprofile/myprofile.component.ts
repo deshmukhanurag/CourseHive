@@ -332,6 +332,11 @@ export class MyprofileComponent implements OnInit {
     RemoveThisPinnedCourse(e:Event ,pinnedCourse: MyPinnedCourses){
       e.stopPropagation();
       this.firebaseService.removeCourseFromMyPinnedCourses(this.myFId,pinnedCourse).then( () => {
+        pendo.track('pinned_course_removed_from_profile', {
+          courseId: pinnedCourse.id,
+          courseName: pinnedCourse.name,
+          removedFrom: 'profile'
+        });
         // remove me from my pinned Courses
         this.firebaseService.removeMyStudentObjectAfterIunpinACourse(pinnedCourse.id, this.myFId).then( () => {
           // remove this pinned course from my object
